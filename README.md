@@ -20,3 +20,59 @@ There are several improvements that I have made to the project, which are:
 ## System Architecture
 
 ![System Architecture](./docs/diagram/nql_system_architecture.png)
+
+## Get started
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+- [Node.js](https://nodejs.org/en/)
+- [Pnpm](https://pnpm.io/)
+
+### Installation
+
+1. Clone the repository
+
+```bash
+git clone git@github.com:tontan2545/NQL.git
+```
+
+2. Install dependencies
+
+```bash
+pnpm install
+```
+
+3. Start the development server
+
+```bash
+pnpm dev
+```
+
+_Note_: If you want to start the development server with a specific project, you can run
+
+```bash
+pnpm dev --filter <project>
+```
+
+4. You'll be able to access
+
+- Frontend App at [http://localhost:3000](http://localhost:3000)
+- Backend API at [http://localhost:8000](http://localhost:8000)
+- Postgres DB at [http://localhost:5432](http://localhost:5432)
+- Redis DB at [http://localhost:6379](http://localhost:6379)
+
+## Installing dependencies
+
+This project uses [pnpm](https://pnpm.io/) as the package manager, you can install dependencies by running
+
+```bash
+pnpm install <package>
+```
+
+Since this project uses [Turborepo](https://turbo.build/), you can install dependencies to a specific project by running
+
+```bash
+pnpm install --filter <project> <package>
+```
