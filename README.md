@@ -6,7 +6,7 @@ NQL, or Natural Query Language, aims to assist in data insights by providing a n
 
 ## About the project
 
-NQL project was intiated during my internship at AWS on May 2023 - August 2023, this repository is a continuation of the project to be presented in [ISE Open House 2023](https://web.facebook.com/ISEopenhouse/posts/pfbid02LydzRUfsJdg7w2YtNeysMMK33rvyZ597WwG4EFYmvVJMk9Yj55Q4rMTxTZpyNRHjl) which is held on 11th November 2023 at International School of Engineering, Chulalongkorn University.
+NQL project was intiated during my internship at AWS on May 2023 - August 2023. This repository is a continuation of the project to be presented in [ISE Open House 2023](https://web.facebook.com/ISEopenhouse/posts/pfbid02LydzRUfsJdg7w2YtNeysMMK33rvyZ597WwG4EFYmvVJMk9Yj55Q4rMTxTZpyNRHjl) which is held on 11th November 2023 at International School of Engineering, Chulalongkorn University.
 
 There are several improvements that I have made to the project, which are:
 
@@ -26,7 +26,6 @@ There are several improvements that I have made to the project, which are:
 ### Prerequisites
 
 - [Docker](https://www.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/)
 - [Node.js](https://nodejs.org/en/)
 - [Pnpm](https://pnpm.io/)
 
@@ -48,6 +47,12 @@ pnpm install
 
 ```bash
 pnpm dev
+```
+
+and open in a seperate terminal
+
+```bash
+docker-compose up
 ```
 
 _Note_: If you want to start the development server with a specific project, you can run
