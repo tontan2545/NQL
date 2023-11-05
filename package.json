@@ -7,7 +7,9 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "ui:add": "pnpm --filter ui ui:add"
+    "ui:add": "pnpm --filter ui ui:add",
+    "generate": "pnpm --filter server generate",
+    "db:setup": "pnpm --filter server db:setup"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
