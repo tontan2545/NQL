@@ -20,6 +20,7 @@ export class LLMService {
       temperature: 0,
       top_k: 10,
       prompt,
+      stop_sequences: ['\n\n', 'SELECT'],
     });
   }
 }
