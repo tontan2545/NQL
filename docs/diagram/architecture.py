@@ -36,10 +36,9 @@ with Diagram("NQL System Architecture", show=False):
 
     (
         ecs_backend
-        >> Edge(label="Prompt Caching")
-        >> elasticache
         >> Edge(label="Embedding Lookup")
         >> embedding_layer
+        >> Edge(label="Prompt Caching")
         >> elasticache
     )
 
