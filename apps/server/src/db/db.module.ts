@@ -2,8 +2,8 @@ import { Module, Provider } from '@nestjs/common';
 import { PG_CONNECTION } from 'src/constants';
 import { Client } from 'pg';
 import { ConfigService } from '@nestjs/config';
-import { DbService } from './db.service';
 import { DbController } from './db.controller';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 const dbProvider: Provider = {
   provide: PG_CONNECTION,
@@ -22,7 +22,7 @@ const dbProvider: Provider = {
 };
 
 @Module({
-  providers: [dbProvider, DbService],
+  providers: [dbProvider, PrismaService],
   exports: [dbProvider],
   controllers: [DbController],
 })
