@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { format } from "sql-formatter";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coy } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Button } from "@ui/components/button";
 import {
   Tooltip,
   TooltipContent,
@@ -13,14 +12,18 @@ import {
 } from "@ui/components/tooltip";
 import { CheckIcon, ClipboardIcon } from "lucide-react";
 
-const SQL = () => {
+type Props = {
+  sql: string;
+  isLoading: boolean;
+};
+
+const SQL = ({ sql, isLoading }: Props) => {
   const [isCopied, setIsCopied] = useState(false);
-  const sql = format(
-    "SELECT film.title, COUNT(rental.rental_id) AS rental_count FROM film  JOIN inventory ON film.film_id = inventory.film_id JOIN rental ON inventory.inventory_id = rental.inventory_id GROUP BY film.title ORDER BY rental_count DESC LIMIT 10",
-    {
-      language: "postgresql",
-    }
-  );
+  const formattedSql = isLoading
+    ? sql
+    : format(sql, {
+        language: "postgresql",
+      });
 
   const copyToClipboard = () => {
     setIsCopied(true);
@@ -37,9 +40,9 @@ const SQL = () => {
         wrapLongLines={true}
         language="sql"
       >
-        {sql}
+        {formattedSql}
       </SyntaxHighlighter>
-      <div className="absolute -top-4 -right-4">
+      <div className="absolute -top-6 -right-4">
         <TooltipProvider delayDuration={250}>
           <Tooltip>
             <TooltipTrigger>
