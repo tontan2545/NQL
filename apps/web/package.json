@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@nql/ui": "workspace:*",
+    "@tanstack/react-query": "^5.7.2",
     "@types/react-syntax-highlighter": "^15.5.9",
+    "axios": "^1.6.0",
     "geist": "^1.0.0",
     "lucide-react": "^0.244.0",
     "next": "^13.4.1",
