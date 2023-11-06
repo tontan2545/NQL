@@ -1,4 +1,4 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Controller, Get, Inject, Param } from '@nestjs/common';
 import { Client } from 'pg';
 import { PG_CONNECTION } from 'src/constants';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -10,29 +10,21 @@ export class DbController {
     @Inject(PG_CONNECTION) private readonly pgClient: Client,
   ) {}
 
-  @Get('/:inferenceId')
-  async getLogData(inferenceId: string) {
-    const dbData = await this.prismaService.inferenceLog.findUnique({
-      where: { id: inferenceId },
-      select: {
-        prompt: true,
-        sql: true,
-      },
-    });
-    return dbData;
-  }
-
   @Get('/:inferenceId/execute')
-  async executeInference(inferenceId: string) {
-    const { sql } = await this.prismaService.inferenceLog.findUnique({
+  async executeInference(@Param('inferenceId') inferenceId: string) {
+    const data = await this.prismaService.inferenceLog.findUnique({
       where: { id: inferenceId },
       select: {
         sql: true,
       },
     });
 
-    const data = await this.pgClient.query(sql);
+    if (!data) {
+      throw new Error('Inference not found');
+    }
 
-    return data.rows;
+    const queryData = await this.pgClient.query(data.sql);
+
+    return queryData.rows;
   }
 }
