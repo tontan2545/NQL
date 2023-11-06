@@ -1,21 +1,86 @@
+"use client";
+
 import Search from "@/components/search";
 import SQL from "@/components/sql";
+import { Skeleton } from "@ui/components/skeleton";
+import { useCallback, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@ui/components/tabs";
+import { inferenceService } from "@/service/inference";
+import { useRouter } from "next/navigation";
+import Data from "@/components/data";
 
 export default function Page() {
+  const [prompt, setPrompt] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [sql, setSql] = useState<string | null>(null);
+
+  const router = useRouter();
+
+  const onSearch = useCallback(async () => {
+    if (prompt.length === 0) return;
+    setSql(null);
+    setIsLoading(true);
+    const response = await inferenceService.runInference(prompt);
+    if (response.body) {
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+
+      const processText = async ({
+        done,
+        value,
+      }: ReadableStreamReadResult<Uint8Array>) => {
+        if (done) {
+          return;
+        }
+
+        const text = decoder.decode(value);
+        setSql(text);
+
+        try {
+          const nextResult = await reader.read();
+          await processText(nextResult);
+        } catch (e) {
+          console.log(e);
+        }
+      };
+      const initialResult = await reader.read();
+      await processText(initialResult);
+    }
+    router.push(`?inference-id=${response.headers.get("X-Inference-ID")}`);
+    setIsLoading(false);
+  }, [prompt]);
+
   return (
     <div className="flex flex-col w-full items-center pt-7">
-      <div className="w-2/5 space-y-4">
-        <Search />
-        <Tabs defaultValue="SQL" className="w-full">
-          <TabsList className="shadow-sm">
-            <TabsTrigger value="SQL">SQL</TabsTrigger>
-            <TabsTrigger value="Data">Data</TabsTrigger>
-          </TabsList>
-          <TabsContent value="SQL">
-            <SQL />
-          </TabsContent>
-        </Tabs>
+      <div className="w-2/5 space-y-4 min-w-[600px]">
+        <Search
+          prompt={prompt}
+          setPrompt={setPrompt}
+          isLoading={isLoading}
+          onSearch={onSearch}
+        />
+        {sql && (
+          <Tabs defaultValue="SQL" className="w-full">
+            <TabsList className="shadow-sm">
+              <TabsTrigger value="SQL">SQL</TabsTrigger>
+              <TabsTrigger value="Data" disabled={isLoading}>
+                Data
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="SQL">
+              <SQL sql={sql} isLoading={isLoading} />
+            </TabsContent>
+            <TabsContent value="Data">
+              <Data />
+            </TabsContent>
+          </Tabs>
+        )}
+        {isLoading && !sql && (
+          <div className="space-y-4">
+            <Skeleton className="w-full h-10" />
+            <Skeleton className="w-full h-80" />
+          </div>
+        )}
       </div>
     </div>
   );
