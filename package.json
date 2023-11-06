@@ -9,7 +9,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "ui:add": "pnpm --filter ui ui:add",
     "generate": "pnpm --filter server generate",
-    "db:setup": "pnpm --filter server db:setup"
+    "db:setup": "pnpm --filter server db:setup",
+    "server:nest": "pnpm --filter server server:nest"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
