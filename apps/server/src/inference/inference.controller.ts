@@ -24,6 +24,8 @@ export class InferenceController {
       const id = uuid();
       res.set({
         'Content-Type': 'application/octet-stream',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Expose-Headers': '*',
         'Transfer-Encoding': 'chunked',
         'X-Inference-ID': id,
       });
@@ -33,7 +35,7 @@ export class InferenceController {
       for await (const completions of stream) {
         const completionChunk = completions.completion.replaceAll('\n', ' ');
         sqlResult += completionChunk;
-        res.write(completionChunk);
+        res.write(sqlResult);
       }
       res.end();
 
