@@ -1,4 +1,11 @@
 module.exports = {
   reactStrictMode: true,
-  transpilePackages: ["ui"],
+  transpilePackages: ["@nql/ui"],
+  images: {
+    remotePatterns: [
+      {
+        hostname: "d1.awsstatic.com",
+      },
+    ],
+  },
 };
