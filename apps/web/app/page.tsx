@@ -12,10 +12,7 @@ export default function Page() {
             <TabsTrigger value="SQL">SQL</TabsTrigger>
             <TabsTrigger value="Data">Data</TabsTrigger>
           </TabsList>
-          <TabsContent
-            value="SQL"
-            className="shadow-sm bg-transparent border-[1px] border-border rounded-md p-8"
-          >
+          <TabsContent value="SQL">
             <SQL />
           </TabsContent>
         </Tabs>
