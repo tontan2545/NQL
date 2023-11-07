@@ -11,6 +11,7 @@ import Data from "@/components/data";
 import { Tab } from "@/types/tabs";
 import { tabLabels } from "@/constants/tabs";
 import { dbService } from "@/service/db";
+import { motion } from "framer-motion";
 
 export default function Page() {
   const [prompt, setPrompt] = useState("");
@@ -18,6 +19,7 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(true);
   const [tab, setTab] = useState<Tab>("SQL");
   const [sql, setSql] = useState<string | null>(null);
+  const animationDuration = 0.2;
 
   const router = useRouter();
 
@@ -95,11 +97,27 @@ export default function Page() {
                 </TabsTrigger>
               ))}
             </TabsList>
+
             <TabsContent value="SQL">
-              <SQL sql={sql} isLoading={isLoading} />
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: animationDuration }}
+              >
+                <SQL sql={sql} isLoading={isLoading} />
+              </motion.div>
             </TabsContent>
+
             <TabsContent value="DATA">
-              <Data />
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: animationDuration }}
+              >
+                <Data />
+              </motion.div>
             </TabsContent>
           </Tabs>
         )}

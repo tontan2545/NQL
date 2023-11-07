@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { format } from "sql-formatter";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coy } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -11,6 +11,7 @@ import {
   TooltipTrigger,
 } from "@ui/components/tooltip";
 import { CheckIcon, ClipboardIcon } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Props = {
   sql: string;
@@ -50,11 +51,31 @@ const SQL = ({ sql, isLoading }: Props) => {
                 className="hover:bg-accent hover:text-accent-foreground px-3 py-[10px] rounded-sm"
                 onClick={copyToClipboard}
               >
-                {isCopied ? (
-                  <CheckIcon className="w-5 h-5" />
-                ) : (
-                  <ClipboardIcon className="w-5 h-5" />
-                )}
+                <div className="relative w-5 h-5">
+                  <AnimatePresence>
+                    {isCopied ? (
+                      <motion.div
+                        key="check-icon"
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0, opacity: 0 }}
+                        className="absolute z-10"
+                      >
+                        <CheckIcon className="w-5 h-5" />
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="clipboard-icon"
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0, opacity: 0 }}
+                        className="absolute z-0"
+                      >
+                        <ClipboardIcon className="w-5 h-5" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
             </TooltipTrigger>
             <TooltipContent>Copy</TooltipContent>
@@ -63,7 +84,6 @@ const SQL = ({ sql, isLoading }: Props) => {
       </div>
     </div>
   );
-  //   return <p>Hello</p>;
 };
 
 export default SQL;
