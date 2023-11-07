@@ -3,18 +3,39 @@
 import Search from "@/components/search";
 import SQL from "@/components/sql";
 import { Skeleton } from "@ui/components/skeleton";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@ui/components/tabs";
 import { inferenceService } from "@/service/inference";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Data from "@/components/data";
+import { Tab } from "@/types/tabs";
+import { tabLabels } from "@/constants/tabs";
+import { dbService } from "@/service/db";
 
 export default function Page() {
   const [prompt, setPrompt] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const [isLoading, setIsLoading] = useState(true);
+  const [tab, setTab] = useState<Tab>("SQL");
   const [sql, setSql] = useState<string | null>(null);
 
   const router = useRouter();
+
+  useEffect(() => {
+    const inferenceId = searchParams.get("inference-id");
+
+    if (inferenceId) {
+      const getInferenceData = async () => {
+        const data = await dbService.getInferenceData(inferenceId);
+        setSql(data.sql);
+        setPrompt(data.prompt);
+      };
+
+      getInferenceData();
+    }
+
+    setIsLoading(false);
+  }, []);
 
   const onSearch = useCallback(async () => {
     if (prompt.length === 0) return;
@@ -60,17 +81,24 @@ export default function Page() {
           onSearch={onSearch}
         />
         {sql && (
-          <Tabs defaultValue="SQL" className="w-full">
+          <Tabs
+            value={tab}
+            onValueChange={(e) => {
+              setTab(e as Tab);
+            }}
+            className="w-full"
+          >
             <TabsList className="shadow-sm">
-              <TabsTrigger value="SQL">SQL</TabsTrigger>
-              <TabsTrigger value="Data" disabled={isLoading}>
-                Data
-              </TabsTrigger>
+              {Object.keys(tabLabels).map((k) => (
+                <TabsTrigger key={k} value={k}>
+                  {tabLabels[k as Tab]}
+                </TabsTrigger>
+              ))}
             </TabsList>
             <TabsContent value="SQL">
               <SQL sql={sql} isLoading={isLoading} />
             </TabsContent>
-            <TabsContent value="Data">
+            <TabsContent value="DATA">
               <Data />
             </TabsContent>
           </Tabs>

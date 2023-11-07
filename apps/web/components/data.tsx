@@ -22,7 +22,6 @@ const Data = () => {
     queryFn: () => dbService.executeSQL(inferenceId!),
     enabled: !!inferenceId,
   });
-  console.log(data);
   return !data ? (
     <Skeleton className="w-full h-80" />
   ) : (
@@ -31,7 +30,7 @@ const Data = () => {
         <TableHeader>
           <TableRow className="sticky top-0">
             {Object.keys(data[0]).map((key) => (
-              <TableHead>{key}</TableHead>
+              <TableHead key={key}>{key}</TableHead>
             ))}
           </TableRow>
         </TableHeader>
