@@ -26,6 +26,8 @@ RUN pnpm dlx turbo run build --scope=@nql/web --include-dependencies --no-deps
 FROM node:16-alpine AS runner
 WORKDIR /app
 
+RUN apk add --no-cache bash
+
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
 
@@ -39,9 +41,14 @@ USER nextjs
 COPY --from=installer --chown=nextjs:nodejs /app/node_modules ./node_modules
 COPY --from=installer --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/scripts/entrypoint.sh ./apps/web/scripts/entrypoint.sh
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.env.production ./apps/web/.env.production
 
 EXPOSE 3000
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
+
+RUN ["chmod", "+x", "./apps/web/scripts/entrypoint.sh"]
+ENTRYPOINT [ "./apps/web/scripts/entrypoint.sh" ]
 
 CMD ["node", "apps/web/server.js"]
