@@ -15,9 +15,7 @@ services:
       - ./docker/postgres/.data:/var/lib/postgresql/data
 
   web:
-    build:
-      context: .
-      dockerfile: apps/web/Dockerfile
+    image: ghcr.io/tontan2545/nql-web:latest
     ports:
       - 3000:3000
     env_file:
@@ -27,9 +25,7 @@ services:
       - server
 
   server:
-    build:
-      context: .
-      dockerfile: apps/server/Dockerfile
+    image: ghcr.io/tontan2545/nql-server:latest
     restart: always
     ports:
       - 8000:8000

@@ -25,5 +25,5 @@ jobs:
           docker push ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}
       - name: Build and Publish Server
         run: |
-          docker build -f apps/web/Dockerfile . --tag ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}
+          docker build -f apps/server/Dockerfile . --tag ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}
           docker push ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}
