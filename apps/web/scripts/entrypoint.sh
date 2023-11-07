@@ -31,4 +31,4 @@ while read -r line; do
 done <$envFilename
 
 echo "Starting Nextjs"
-node ./apps/web/server.js
+exec "$@"
