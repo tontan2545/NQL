@@ -50,5 +50,3 @@ ENV HOSTNAME "0.0.0.0"
 
 RUN ["chmod", "+x", "./apps/web/scripts/entrypoint.sh"]
 ENTRYPOINT [ "./apps/web/scripts/entrypoint.sh" ]
-
-CMD ["node", "apps/web/server.js"]
