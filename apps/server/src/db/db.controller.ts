@@ -10,6 +10,23 @@ export class DbController {
     @Inject(PG_CONNECTION) private readonly pgClient: Client,
   ) {}
 
+  @Get('/:inferenceId')
+  async getInferenceData(@Param('inferenceId') inferenceId: string) {
+    const data = await this.prismaService.inferenceLog.findUnique({
+      where: { id: inferenceId },
+      select: {
+        sql: true,
+        prompt: true,
+      },
+    });
+
+    if (!data) {
+      throw new Error('Inference not found');
+    }
+
+    return data;
+  }
+
   @Get('/:inferenceId/execute')
   async executeInference(@Param('inferenceId') inferenceId: string) {
     const data = await this.prismaService.inferenceLog.findUnique({
