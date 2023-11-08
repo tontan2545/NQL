@@ -1,6 +1,6 @@
 import { Module, Provider } from '@nestjs/common';
 import { PG_CONNECTION } from 'src/constants';
-import { Client } from 'pg';
+import { Client, types } from 'pg';
 import { ConfigService } from '@nestjs/config';
 import { DbController } from './db.controller';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -14,6 +14,7 @@ const dbProvider: Provider = {
         connectionString: configService.get('TARGET_DATABASE_URL'),
       });
       await conn.connect();
+      types.setTypeParser(types.builtins.INTERVAL, (val) => val);
       return conn;
     } catch (error) {
       console.log(error);
