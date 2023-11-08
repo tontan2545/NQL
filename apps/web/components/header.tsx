@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <div className="relative flex flex-col items-center w-full">
       {bannerUrl && bannerContent && (
-        <div className="relative flex text-base bg-gradient-to-r to-orange-400 via-rose-500 from-rose-700 text-white w-full justify-center py-1 z-10">
+        <div className="absolute flex text-base bg-gradient-to-r to-orange-400 via-rose-500 from-rose-700 text-white w-full justify-center py-1 z-10">
           <Link
             href={bannerUrl}
             target="_blank"
@@ -29,7 +29,7 @@ const Header = () => {
           </Link>
         </div>
       )}
-      <div className="flex flex-col items-center pt-20 space-y-4">
+      <div className="flex flex-col items-center pt-28 space-y-4">
         <div className="flex space-x-4 items-center">
           <Bot className="w-20 h-20" />
           <h1 className="text-8xl font-bold">NQL</h1>
