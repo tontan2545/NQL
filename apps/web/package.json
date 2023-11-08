@@ -21,7 +21,8 @@
     "react-dom": "^18.2.0",
     "react-syntax-highlighter": "^15.5.0",
     "sharp": "^0.32.6",
-    "sql-formatter": "^13.0.4"
+    "sql-formatter": "^13.0.4",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@nql/eslint-config-custom": "workspace:*",
