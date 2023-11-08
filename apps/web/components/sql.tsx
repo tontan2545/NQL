@@ -32,7 +32,7 @@ const SQL = ({ sql, isLoading }: Props) => {
     setTimeout(() => setIsCopied(false), 1500);
   };
   return (
-    <div className="relative">
+    <div className="relative p-6">
       <SyntaxHighlighter
         style={coy}
         customStyle={{
@@ -43,7 +43,7 @@ const SQL = ({ sql, isLoading }: Props) => {
       >
         {formattedSql}
       </SyntaxHighlighter>
-      <div className="absolute -top-6 -right-4">
+      <div className="absolute top-3 right-3">
         <TooltipProvider delayDuration={250}>
           <Tooltip>
             <TooltipTrigger>
