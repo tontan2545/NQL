@@ -12,6 +12,7 @@ import { Tab } from "@/types/tabs";
 import { tabLabels } from "@/constants/tabs";
 import { dbService } from "@/service/db";
 import { motion } from "framer-motion";
+import { useToast } from "@ui/components/use-toast";
 
 export default function Page() {
   const [prompt, setPrompt] = useState("");
@@ -19,6 +20,7 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(true);
   const [tab, setTab] = useState<Tab>("SQL");
   const [sql, setSql] = useState<string | null>(null);
+  const { toast } = useToast();
   const animationDuration = 0.2;
 
   const router = useRouter();
@@ -28,9 +30,17 @@ export default function Page() {
 
     if (inferenceId) {
       const getInferenceData = async () => {
-        const data = await dbService.getInferenceData(inferenceId);
-        setSql(data.sql);
-        setPrompt(data.prompt);
+        try {
+          const data = await dbService.getInferenceData(inferenceId);
+          setSql(data.sql);
+          setPrompt(data.prompt);
+        } catch (e) {
+          toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: (e as unknown as Error).message,
+          });
+        }
       };
 
       getInferenceData();
@@ -43,34 +53,44 @@ export default function Page() {
     if (prompt.length === 0) return;
     setSql(null);
     setIsLoading(true);
-    const response = await inferenceService.runInference(prompt);
-    if (response.body) {
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder("utf-8");
+    try {
+      const response = await inferenceService.runInference(prompt);
+      if (response.body) {
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder("utf-8");
 
-      const processText = async ({
-        done,
-        value,
-      }: ReadableStreamReadResult<Uint8Array>) => {
-        if (done) {
-          return;
-        }
+        const processText = async ({
+          done,
+          value,
+        }: ReadableStreamReadResult<Uint8Array>) => {
+          if (done) {
+            return;
+          }
 
-        const text = decoder.decode(value);
-        setSql(text);
+          const text = decoder.decode(value);
+          setSql(text);
 
-        try {
-          const nextResult = await reader.read();
-          await processText(nextResult);
-        } catch (e) {
-          console.log(e);
-        }
-      };
-      const initialResult = await reader.read();
-      await processText(initialResult);
+          try {
+            const nextResult = await reader.read();
+            await processText(nextResult);
+          } catch (e) {
+            console.log(e);
+          }
+        };
+        const initialResult = await reader.read();
+        await processText(initialResult);
+      }
+      router.push(`?inference-id=${response.headers.get("X-Inference-ID")}`);
+    } catch (e) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: (e as unknown as Error).message,
+      });
     }
-    router.push(`?inference-id=${response.headers.get("X-Inference-ID")}`);
+
     setIsLoading(false);
+    setTab("SQL");
   }, [prompt]);
 
   return (
