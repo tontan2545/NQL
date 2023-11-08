@@ -1,6 +1,7 @@
 module.exports = {
   reactStrictMode: true,
   transpilePackages: ["@nql/ui"],
+  output: "standalone",
   images: {
     remotePatterns: [
       {

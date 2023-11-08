@@ -38,11 +38,9 @@ USER nextjs
 
 # Automatically leverage output traces to reduce image size 
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/apps/web/next.config.js ./
-COPY --from=installer --chown=nextjs:nodejs /app/apps/web/.next ./apps/web/.next
-COPY --from=installer --chown=nextjs:nodejs /app/apps/web/node_modules ./apps/web/node_modules
 COPY --from=installer --chown=nextjs:nodejs /app/node_modules ./node_modules
-
+COPY --from=installer --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
+COPY --from=installer --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/apps/web/scripts/entrypoint.sh ./apps/web/scripts/entrypoint.sh
 COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.env.production ./apps/web/.env.production
 
@@ -51,4 +49,5 @@ ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 
 RUN ["chmod", "+x", "./apps/web/scripts/entrypoint.sh"]
-CMD ["apps/web/node_modules/.bin/next", "start"]
+ENTRYPOINT ["./apps/web/scripts/entrypoint.sh"]
+CMD ["node", "apps/web/server.js"]
