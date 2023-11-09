@@ -29,6 +29,29 @@ export default function RootLayout({
           <Header />
           <main className="flex flex-col flex-1">{children}</main>
           <Footer />
+          <svg
+            aria-hidden="true"
+            className="pointer-events-none absolute -z-10 inset-0 h-full w-full fill-gray-300/20 stroke-gray-300/20 [mask-image:radial-gradient(600px_circle_at_center,white,transparent)]"
+          >
+            <defs>
+              <pattern
+                id=":r18:"
+                width="30"
+                height="30"
+                patternUnits="userSpaceOnUse"
+                x="-1"
+                y="-1"
+              >
+                <path d="M.5 30V.5H30" fill="none"></path>
+              </pattern>
+            </defs>
+            <rect
+              width="100%"
+              height="100%"
+              strokeWidth="0"
+              fill="url(#:r18:)"
+            ></rect>
+          </svg>
         </QueryClientProvider>
         <Toaster />
       </body>

@@ -25,7 +25,7 @@ const Search = ({ prompt, setPrompt, isLoading, onSearch }: Props) => {
             await onSearch();
           }
         }}
-        className="border-[#9F9F9F] border-[1px] shadow-md rounded-xl resize-none pl-14 pr-[72px] py-[14px] text-base focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground/60"
+        className="bg-white border-[#9F9F9F] border-[1px] shadow-md rounded-xl resize-none pl-14 pr-[72px] py-[14px] text-base focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground/60"
         placeholder="Enter your prompt"
       />
       <Button
