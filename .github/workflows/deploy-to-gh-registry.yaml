@@ -1,9 +1,6 @@
-name: publish
+name: Publish Docker Images to Github Registry
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 env:
   # Use docker.io for Docker Hub if empty
