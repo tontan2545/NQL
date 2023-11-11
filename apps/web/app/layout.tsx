@@ -29,7 +29,7 @@ export default function RootLayout({
           <Header />
           <main className="flex flex-col flex-1">{children}</main>
           <Footer />
-          <svg
+          {/* <svg
             aria-hidden="true"
             className="pointer-events-none absolute -z-10 inset-0 h-full w-full fill-gray-300/20 stroke-gray-300/20 [mask-image:radial-gradient(600px_circle_at_center,white,transparent)]"
           >
@@ -51,7 +51,7 @@ export default function RootLayout({
               strokeWidth="0"
               fill="url(#:r18:)"
             ></rect>
-          </svg>
+          </svg> */}
         </QueryClientProvider>
         <Toaster />
       </body>
