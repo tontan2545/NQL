@@ -1,8 +1,16 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Textarea } from "@ui/components/textarea";
-import { Loader2, Search as SearchIcon, SendIcon } from "lucide-react";
+import {
+  AlertCircle,
+  Github,
+  Loader2,
+  Search as SearchIcon,
+  SendIcon,
+} from "lucide-react";
 import { Button } from "@ui/components/button";
+import { Dialog, DialogContent, DialogTrigger } from "@ui/components/dialog";
+import Image from "next/image";
 
 type Props = {
   prompt: string;
@@ -39,6 +47,32 @@ const Search = ({ prompt, setPrompt, isLoading, onSearch }: Props) => {
           <SendIcon className="relative right-[1px] w-5 h-5" />
         )}
       </Button>
+      <Dialog>
+        <DialogTrigger asChild>
+          <div className="flex justify-end">
+            <Button
+              size="sm"
+              variant="ghost"
+              className="ml-auto rounded-full text-muted-foreground hover:text-muted-foreground p-1 h-min mr-0"
+            >
+              <AlertCircle className="w-5 h-5" />
+            </Button>
+          </div>
+        </DialogTrigger>
+        <DialogContent className="w-[425px] pt-8 space-y-3">
+          <div className="flex justify-center items-center gap-3">
+            <Image src="/github.svg" alt="github-logo" width={36} height={36} />
+            <p className="text-2xl font-semibold">tontan2545/NQL</p>
+          </div>
+          <Image
+            src="/nql-repo.png"
+            alt="nql-repo-qr-code"
+            width={350}
+            height={350}
+            className="mx-auto"
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
