@@ -3,7 +3,6 @@ name: Publish Docker Images to Github Registry
 on: [push]
 
 env:
-  # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   FRONTEND_IMAGE_NAME: ${{ github.actor }}/nql-web:latest
   BACKEND_IMAGE_NAME: ${{ github.actor }}/nql-server:latest

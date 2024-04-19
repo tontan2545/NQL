@@ -40,7 +40,11 @@ export class DbController {
       throw new Error('Inference not found');
     }
 
+    await this.pgClient.connect();
+
     const queryData = await this.pgClient.query(data.sql);
+
+    await this.pgClient.end();
 
     return queryData.rows;
   }

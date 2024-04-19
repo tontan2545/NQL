@@ -13,7 +13,6 @@ const dbProvider: Provider = {
       const conn = new Client({
         connectionString: configService.get('TARGET_DATABASE_URL'),
       });
-      await conn.connect();
       types.setTypeParser(types.builtins.INTERVAL, (val) => val);
       return conn;
     } catch (error) {
