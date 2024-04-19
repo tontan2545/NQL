@@ -8,7 +8,7 @@ const Header = () => {
   const bannerContent = process.env.NEXT_PUBLIC_BANNER_CONTENT;
   return (
     <div className="relative flex flex-col items-center w-full">
-      {bannerUrl && bannerContent && (
+      {/* {bannerUrl && bannerContent && (
         <div className="absolute flex text-base bg-gradient-to-r to-orange-400 via-rose-500 from-rose-700 text-white w-full justify-center py-1 z-10">
           <Link
             href={bannerUrl}
@@ -28,7 +28,7 @@ const Header = () => {
             </Button>
           </Link>
         </div>
-      )}
+      )} */}
       <div className="flex flex-col items-center pt-28 space-y-4">
         <div className="flex space-x-4 items-center">
           <Bot className="w-20 h-20" />
