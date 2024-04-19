@@ -1,5 +1,5 @@
 import { Controller, Get, Inject, Param } from '@nestjs/common';
-import { Client } from 'pg';
+import { Pool } from 'pg';
 import { PG_CONNECTION } from 'src/constants';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -7,7 +7,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class DbController {
   constructor(
     private readonly prismaService: PrismaService,
-    @Inject(PG_CONNECTION) private readonly pgClient: Client,
+    @Inject(PG_CONNECTION) private readonly pgClient: Pool,
   ) {}
 
   @Get('/:inferenceId')
